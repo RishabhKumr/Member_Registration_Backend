@@ -1,6 +1,6 @@
 package com.member;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,7 +29,6 @@ import com.member.entity.DatabaseSequence;
 import com.member.entity.Member;
 import com.member.repository.IBeneficiaryRepository;
 import com.member.repository.IClaimRepository;
-import com.member.repository.IMailRepository;
 import com.member.repository.IMemberRepository;
 import com.member.services.RegisterService;
 import com.member.services.SequenceGeneratorService;
@@ -41,9 +40,6 @@ public class ServiceMockitoTests {
 	
 	@Mock
 	IClaimRepository claimRepository;
-	
-	@Mock
-	IMailRepository mailRepo;
 	
 	@Mock
 	IMemberRepository memberRepo;
@@ -120,7 +116,7 @@ public class ServiceMockitoTests {
 	@Test
 	@Order(6)
 	public void test_updateBeneficiary() {
-		BeneficiaryDto beneficiaryDto = new BeneficiaryDto("test","1997-10-03","test","test","test","test","test");
+		BeneficiaryDto beneficiaryDto = new BeneficiaryDto("test","1997-10-03","test","test","test","test","test","R1011");
 		String id = "B1012";
 		Optional<Beneficiary> beneficiaryOptional = Optional.of(new Beneficiary("test","test","1997-10-03","test"
 				,"test","test","test","test","test"));

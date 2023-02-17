@@ -1,12 +1,12 @@
+com\member\dto\MemberRegisterDto.class
 com\member\exceptions\BeneficiaryNotFoundExceptionHandler.class
 com\member\dto\BeneficiaryDto.class
-com\member\repository\IMailRepository.class
 com\member\controller\RegistrationController.class
+com\member\dto\ClaimDto.class
 com\member\entity\Claim.class
 com\member\entity\DatabaseSequence.class
 com\member\services\RegisterService.class
 com\member\services\SequenceGeneratorService.class
-com\member\entity\Mail.class
 com\member\entity\Beneficiary.class
 com\member\exceptions\MemberNotFoundException.class
 com\member\repository\IMemberRepository.class

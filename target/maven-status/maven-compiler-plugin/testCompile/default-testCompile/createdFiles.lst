@@ -1,0 +1,4 @@
+com\member\ServiceMockitoTests.class
+com\member\MemberRegistrationApplicationTests.class
+com\member\Entity.class
+com\member\ControllerMockitoTests.class

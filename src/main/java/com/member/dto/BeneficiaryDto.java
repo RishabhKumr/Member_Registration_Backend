@@ -2,7 +2,7 @@ package com.member.dto;
 
 public class BeneficiaryDto {
 	
-	private String beneficiaryName;
+private String beneficiaryName;
 	
 	private String beneficiaryDOB;
 	
@@ -15,6 +15,8 @@ public class BeneficiaryDto {
 	private String beneficiaryState;
 	
 	private String beneficiaryCountry;
+	
+	private String memberId;
 
 	public BeneficiaryDto() {
 		super();
@@ -22,7 +24,8 @@ public class BeneficiaryDto {
 	}
 
 	public BeneficiaryDto(String beneficiaryName, String beneficiaryDOB, String beneficiaryRelation,
-			String beneficiaryPAN, String beneficiaryAddress, String beneficiaryState, String beneficiaryCountry) {
+			String beneficiaryPAN, String beneficiaryAddress, String beneficiaryState, String beneficiaryCountry,
+			String memberId) {
 		super();
 		this.beneficiaryName = beneficiaryName;
 		this.beneficiaryDOB = beneficiaryDOB;
@@ -31,6 +34,7 @@ public class BeneficiaryDto {
 		this.beneficiaryAddress = beneficiaryAddress;
 		this.beneficiaryState = beneficiaryState;
 		this.beneficiaryCountry = beneficiaryCountry;
+		this.memberId = memberId;
 	}
 
 	public String getBeneficiaryName() {
@@ -88,6 +92,12 @@ public class BeneficiaryDto {
 	public void setBeneficiaryCountry(String beneficiaryCountry) {
 		this.beneficiaryCountry = beneficiaryCountry;
 	}
-	
-	
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
 }

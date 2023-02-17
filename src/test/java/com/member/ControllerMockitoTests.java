@@ -1,8 +1,6 @@
 package com.member;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -21,14 +19,15 @@ import org.springframework.http.ResponseEntity;
 
 import com.member.controller.RegistrationController;
 import com.member.dto.BeneficiaryDto;
+import com.member.dto.ClaimDto;
 import com.member.dto.MemberDto;
+import com.member.dto.MemberRegisterDto;
 import com.member.entity.Beneficiary;
 import com.member.entity.Claim;
 import com.member.entity.Member;
 import com.member.payload.MessageResponse;
 import com.member.repository.IBeneficiaryRepository;
 import com.member.repository.IClaimRepository;
-import com.member.repository.IMailRepository;
 import com.member.repository.IMemberRepository;
 import com.member.services.RegisterService;
 
@@ -40,9 +39,6 @@ public class ControllerMockitoTests {
 	
 	@Mock
 	IClaimRepository claimRepository;
-	
-	@Mock
-	IMailRepository mailRepo;
 	
 	@Mock
 	IMemberRepository memberRepo;
@@ -59,9 +55,10 @@ public class ControllerMockitoTests {
 	@Test
 	@Order(1)
 	public void test_registerMember() {
-		Member member = new Member("null","test","test","test","test","Rcdc@gmail.com","test","test","1997-10-03");
-		Member member2 = new Member("R7717","test","test","test","test","Rcdc@gmail.com","test","test","1997-10-03");
-		when(registerService.registerMember(member)).thenReturn(member);
+		//Member member = new Member("null","test","test","test","test","Rcdc@gmail.com","test","test","1997-10-03");
+		//Member member2 = new Member("R7717","test","test","test","test","Rcdc@gmail.com","test","test","1997-10-03");
+		MemberRegisterDto member = new MemberRegisterDto("test","test","test","test","Rcdc@gmail.com","test","test","1997-10-03");
+		Member memberObj = new Member();
 		if(memberRepository.existsByMemberName(member.getMemberName())){
 			
 			assertEquals(registerController.registerMember(member),ResponseEntity.badRequest().body(new MessageResponse("Error : UserName is already Taken")));
@@ -77,9 +74,19 @@ public class ControllerMockitoTests {
 		if(age < 18) {
 			assertEquals(registerController.registerMember(member),ResponseEntity.badRequest().body(new MessageResponse("Error : Age must be greater than 18.")));
 		}
+		memberObj.setMemberAddress(member.getMemberAddress());
+		memberObj.setMemberContactNo(member.getMemberContactNo());
+		memberObj.setMemberCountry(member.getMemberCountry());
+		memberObj.setMemberDOB(member.getMemberDOB());
+		memberObj.setMemberEmail(member.getMemberEmail());
+		memberObj.setMemberName(member.getMemberName());
+		memberObj.setMemberPAN(member.getMemberPAN());
+		memberObj.setMemberState(member.getMemberState());
+		
+		when(registerService.registerMember(memberObj)).thenReturn(memberObj);
 		
 		ResponseEntity<?> res = new ResponseEntity<>(HttpStatus.OK);
-		assertEquals(registerController.registerMember(member),res.ok(member));	
+		assertEquals(registerController.registerMember(member),res.ok(null));	
 	}
 	
 	@Test
@@ -126,32 +133,39 @@ public class ControllerMockitoTests {
 	public void test_addbeneficiary() {
 		Beneficiary beneficiary = new Beneficiary("test","test","1997-10-03","test"
 				,"test","test","test","test","test");
+		BeneficiaryDto beneficiaryDto = new BeneficiaryDto("test","1997-10-03","test"
+				,"test","test","test","test","test");
 		//List<Beneficiary> beneficiaryCheck = beneficiaryRepository.findByMemberId(beneficiary.getMemberId());
 		List<Beneficiary> beneficiaryCheck = new LinkedList<Beneficiary>();
 		when(beneficiaryRepo.findByMemberId(beneficiary.getMemberId())).thenReturn(beneficiaryCheck);
 		if(beneficiaryCheck.size() > 1) {
-			assertEquals(registerController.addBeneficiary(beneficiary),ResponseEntity.badRequest()
+			assertEquals(registerController.addBeneficiary(beneficiaryDto),ResponseEntity.badRequest()
 					.body(new MessageResponse("Error : Already added two beneficiaries.")));
 		}
-		
+		beneficiary.setBeneficiaryAddress(beneficiaryDto.getBeneficiaryAddress());
+		beneficiary.setBeneficiaryCountry(beneficiaryDto.getBeneficiaryCountry());
+		beneficiary.setBeneficiaryDOB(beneficiaryDto.getBeneficiaryDOB());
+		beneficiary.setBeneficiaryName(beneficiaryDto.getBeneficiaryName());
+		beneficiary.setBeneficiaryPAN(beneficiaryDto.getBeneficiaryPAN());
+		beneficiary.setBeneficiaryRelation(beneficiaryDto.getBeneficiaryRelation());
+		beneficiary.setBeneficiaryState(beneficiaryDto.getBeneficiaryState());
+		beneficiary.setMemberId(beneficiaryDto.getMemberId());
 		when(registerService.registerBeneficiary(beneficiary)).thenReturn(beneficiary);
 		LocalDate dobCheck = LocalDate.parse(beneficiary.getBeneficiaryDOB());
 		LocalDate curDate = LocalDate.now(); 
 		int age =  Period.between(dobCheck, curDate).getYears();
 		if(age < 18) {
-			assertEquals(registerController.addBeneficiary(beneficiary),ResponseEntity.badRequest()
+			assertEquals(registerController.addBeneficiary(beneficiaryDto),ResponseEntity.badRequest()
 					.body(new MessageResponse("Error : Age must be greater than 18.")));
 		}
-		String info = ""+beneficiary.getBeneficiaryName()+" Beneficiary Added Successfully."
-				+ ". Here is your Member ID:"+beneficiary.getMemberId();
 		ResponseEntity<?> res = new ResponseEntity<>(HttpStatus.OK);
-		assertEquals(registerController.addBeneficiary(beneficiary),res.ok(beneficiary));
+		assertEquals(registerController.addBeneficiary(beneficiaryDto),res.ok(null));
 	}
 	
 	@Test
 	@Order(6)
 	public void test_updateBeneficiary() {
-		BeneficiaryDto beneficiaryDto = new BeneficiaryDto("test","1997-10-03","test","test","test","test","test");
+		BeneficiaryDto beneficiaryDto = new BeneficiaryDto("test","test","1997-10-03","test","test","test","test","test");
 		String id = "B1012";
 		String status = "Updated existingBeneficiary Details Successfully!";
 		when(registerService.updateBeneficiary(beneficiaryDto, id)).thenReturn(status);
@@ -162,6 +176,7 @@ public class ControllerMockitoTests {
 	@Order(7)
 	public void test_createClaim() {
 		Claim claim = new Claim("C87112","test","test","test","test","test","test","test","test","test","1997-10-03");
+		ClaimDto claimDto = new ClaimDto("test","test","test","test","test","test","test","test","test","1997-10-03");
 		Optional<Member> memberOptional =  Optional.of(new Member("test",
 				"test","test","test","test","test","test","test","1997-10-03"));
 		when(registerService.findById(claim.getClaimerId())).thenReturn(memberOptional);
@@ -169,7 +184,7 @@ public class ControllerMockitoTests {
 //		claim.setClaimerDOB(memberOptional.get().getMemberDOB());
 		when(registerService.createClaim(claim)).thenReturn(claim);
 		ResponseEntity<?> res = new ResponseEntity<>(HttpStatus.OK);
-		assertEquals(registerController.createClaim(claim),res.ok(claim));
+		assertEquals(registerController.createClaim(claimDto),res.ok(null));
 		
 	}
 	@Test

@@ -7,10 +7,10 @@ E:\Spring\Projects\MemberRegistration\src\main\java\com\member\repository\IClaim
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\payload\MessageResponse.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\services\SequenceGeneratorService.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\dto\BeneficiaryDto.java
-E:\Spring\Projects\MemberRegistration\src\main\java\com\member\repository\IMailRepository.java
-E:\Spring\Projects\MemberRegistration\src\main\java\com\member\entity\Mail.java
+E:\Spring\Projects\MemberRegistration\src\main\java\com\member\dto\MemberRegisterDto.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\repository\IMemberRepository.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\entity\Claim.java
+E:\Spring\Projects\MemberRegistration\src\main\java\com\member\dto\ClaimDto.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\entity\DatabaseSequence.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\controller\RegistrationController.java
 E:\Spring\Projects\MemberRegistration\src\main\java\com\member\entity\Member.java
